@@ -36,7 +36,7 @@ namespace SolarPanels.Factories
             return new ComplexShape()
             {
                 Lines = _buildZone
-                    .ToLines(System.Windows.Media.Brushes.Yellow)
+                    .ToLines(System.Windows.Media.Brushes.SandyBrown)
                     .ToList()
             };
         }

@@ -2,6 +2,7 @@
 using SolarPanels.Extensions;
 using SolarPanels.Factories;
 using SolarPanels.Models;
+using SolarPanels.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace SolarPanels.ViewModels
 {
     public class MainViewModel : PropertyChangedBase
     {
-        private int _pressCount;
+        private readonly DisplayService _displayService;
 
         private string _message;
         public string Message
@@ -49,12 +50,15 @@ namespace SolarPanels.ViewModels
             }
         }
 
-        public MainViewModel()
+        public MainViewModel(DisplayService displayService)
         {
+            _displayService = displayService;
+
             var shape1 = ShapeFactory.CreateBuildZone();
             var shape2 = ShapeFactory.CreateBlockedZone();
 
-            var lines = shape1.Lines.Union(shape2.Lines).ToList();
+            _displayService.AddShape(shape1);
+            _displayService.AddShape(shape2);
 
             var inrLine1 = new LineSegment()
             {
@@ -70,29 +74,25 @@ namespace SolarPanels.ViewModels
                 Stroke = System.Windows.Media.Brushes.Green
             };
 
-            lines.Add(inrLine1);
-            lines.Add(inrLine2);
+            _displayService.AddLine(inrLine1);
+            _displayService.AddLine(inrLine2);
 
-            Message = inrLine1.FindIntersection(inrLine2)?.ToString();
+            var panel = new Panel()
+            {
+                TopRightCorner = new Point(160, 50),
+                Heigth = 30,
+                Width = 50
+            };
 
-            Lines = new ObservableCollection<LineSegment>(lines);
+            _displayService.AddShape(panel);
+
+            Message = shape1.IsInside(panel).ToString();
+
+            Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);
         }
 
         public void GenerateButton()
         {
-            _pressCount++;
-
-            Message = "Presses = " + _pressCount;
-
-            Lines = new ObservableCollection<LineSegment>()
-            {
-                new LineSegment()
-                {
-                    Point1 = new Point(_pressCount, _pressCount),
-                    Point2 = new Point(_pressCount + 20, _pressCount + 30),
-                    Stroke = System.Windows.Media.Brushes.Green
-                }
-            };
         }
     }
 }

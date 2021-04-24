@@ -10,6 +10,10 @@ namespace SolarPanels.Extensions
 {
     public static class LineSegmentExtensions
     {
+        /// <summary>
+        /// Return point of intersection.
+        /// Return null if no intersection.
+        /// </summary>
         public static Point? FindIntersection(this LineSegment line1, LineSegment line2)
         {
             var a1 = line1.Point2.Y - line1.Point1.Y;
@@ -47,7 +51,7 @@ namespace SolarPanels.Extensions
         /// Check if point is inside of the rectangelar.
         /// </summary>
         /// <returns></returns>
-        public static bool IsInside(this LineSegment rectangelar, Point point)
+        private static bool IsInside(this LineSegment rectangelar, Point point)
         {
             var corner1 = new Point(
                 Math.Min(rectangelar.Point1.X, rectangelar.Point2.X),

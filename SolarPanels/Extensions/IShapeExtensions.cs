@@ -11,11 +11,11 @@ namespace SolarPanels.Extensions
 {
     public static class IShapeExtensions
     {
-        public static bool IsInside(this IShape shape, Point point)
+        public static Point MinPoint(this IShape shape)
         {
-            var lines = shape.GetLines();
+            var shapeLine = shape.GetLines();
 
-            var minX = lines
+            var x = shapeLine
                 .SelectMany(line =>
                     new double[] {
                         line.Point1.X,
@@ -23,15 +23,38 @@ namespace SolarPanels.Extensions
                     })
                 .Min();
 
-            var rayCast = new LineSegment()
-            {
-                Point1 = new Point(minX - 1, point.Y),
-                Point2 = point
-            };
+            var y = shapeLine
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.Y,
+                        line.Point2.Y
+                    })
+                .Min();
 
-            var intersectionCount = shape.FindIntersections(rayCast).Count();
+            return new Point(x, y);
+        }
 
-            return intersectionCount % 2 == 1;
+        public static Point MaxPoint(this IShape shape)
+        {
+            var shapeLine = shape.GetLines();
+
+            var x = shapeLine
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.X,
+                        line.Point2.X
+                    })
+                .Max();
+
+            var y = shapeLine
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.Y,
+                        line.Point2.Y
+                    })
+                .Max();
+
+            return new Point(x, y);
         }
 
         public static IEnumerable<Point> FindIntersections(this IShape shape, LineSegment line)
@@ -50,7 +73,7 @@ namespace SolarPanels.Extensions
                 .Any(shapeLine => shapeLine.FindIntersection(line) != null);
         }
 
-        public static bool IsInside(this IShape shapeZone, IShape shapeInside)
+        public static bool IsAllInside(this IShape shapeInside, IShape shapeZone)
         {
             var insideShapeLines = shapeInside.GetLines();
 
@@ -61,7 +84,7 @@ namespace SolarPanels.Extensions
 
             var insideFirstPoint = insideShapeLines.First().Point1;
 
-            if (!shapeZone.IsInside(insideFirstPoint))
+            if (!insideFirstPoint.IsInside(shapeZone))
             {
                 return false;
             }
@@ -75,6 +98,26 @@ namespace SolarPanels.Extensions
             }
 
             return true;
+        }
+
+        public static bool IsAnyInside(this IShape shapeInside, IShape shapeZone)
+        {
+            var insideShapeLines = shapeInside.GetLines();
+
+            if (insideShapeLines.Count() == 0)
+            {
+                return false;
+            }
+
+            foreach (var insideLine in insideShapeLines)
+            {
+                if (shapeZone.DoesIntersects(insideLine))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

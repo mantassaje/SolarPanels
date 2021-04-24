@@ -16,6 +16,7 @@ namespace SolarPanels.ViewModels
     public class MainViewModel : PropertyChangedBase
     {
         private readonly DisplayService _displayService;
+        private readonly PanelGeneratorService _panelGeneratorService;
 
         private string _message;
         public string Message
@@ -50,43 +51,14 @@ namespace SolarPanels.ViewModels
             }
         }
 
-        public MainViewModel(DisplayService displayService)
+        public MainViewModel(DisplayService displayService, PanelGeneratorService panelGeneratorService)
         {
             _displayService = displayService;
+            _panelGeneratorService = panelGeneratorService;
 
-            var shape1 = ShapeFactory.CreateBuildZone();
-            var shape2 = ShapeFactory.CreateBlockedZone();
+            _panelGeneratorService.Generate(35, 15, 3, 3);
 
-            _displayService.AddShape(shape1);
-            _displayService.AddShape(shape2);
-
-            var inrLine1 = new LineSegment()
-            {
-                Point1 = new Point(20, 20),
-                Point2 = new Point(20, 50),
-                Stroke = System.Windows.Media.Brushes.Green
-            };
-
-            var inrLine2 = new LineSegment()
-            {
-                Point2 = new Point(40, 40),
-                Point1 = new Point(21, 17),
-                Stroke = System.Windows.Media.Brushes.Green
-            };
-
-            _displayService.AddLine(inrLine1);
-            _displayService.AddLine(inrLine2);
-
-            var panel = new Panel()
-            {
-                TopRightCorner = new Point(160, 50),
-                Heigth = 30,
-                Width = 50
-            };
-
-            _displayService.AddShape(panel);
-
-            Message = shape1.IsInside(panel).ToString();
+            _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
 
             Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);
         }

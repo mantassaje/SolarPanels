@@ -5,6 +5,7 @@ using Autofac;
 using SolarPanels.ViewModels;
 using System.Windows;
 using SolarPanels.Services;
+using SolarPanels.Factories;
 
 namespace SolarPanels
 {
@@ -21,7 +22,9 @@ namespace SolarPanels
             builder.RegisterType<MainViewModel>().SingleInstance();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<ShapeFactory>().SingleInstance();
             builder.RegisterType<DisplayService>();
+            builder.RegisterType<PanelGeneratorService>();
 
             _container = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿
 using SolarPanels.Models;
+using SolarPanels.Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -43,6 +44,29 @@ namespace SolarPanels.Extensions
                 Point2 = points.Last(),
                 Stroke = color
             };
+        }
+
+        public static bool IsInside(this Point point, IShape shape)
+        {
+            var lines = shape.GetLines();
+
+            var minX = lines
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.X,
+                        line.Point2.X
+                    })
+                .Min();
+
+            var rayCast = new Models.LineSegment()
+            {
+                Point1 = new Point(minX - 1, point.Y),
+                Point2 = point
+            };
+
+            var intersectionCount = shape.FindIntersections(rayCast).Count();
+
+            return intersectionCount % 2 == 1;
         }
     }
 }

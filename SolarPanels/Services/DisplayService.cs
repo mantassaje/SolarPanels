@@ -10,9 +10,12 @@ namespace SolarPanels.Services
     {
         public List<LineSegment> DrawLines { get; private set; } = new List<LineSegment>();
 
-        public void AddShape(IShape shape)
+        public void AddShapes(params IShape[] shapes)
         {
-            DrawLines.AddRange(shape.GetLines());
+            foreach (var shape in shapes)
+            {
+                DrawLines.AddRange(shape.GetLines());
+            }
         }
 
         public void AddLine(LineSegment line)

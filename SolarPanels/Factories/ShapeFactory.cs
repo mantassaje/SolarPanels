@@ -9,9 +9,9 @@ namespace SolarPanels.Factories
     /// <summary>
     /// Service that builds hardcoded zones.
     /// </summary>
-    public static class ShapeFactory
+    public class ShapeFactory
     {
-        private static List<Point> _buildZone = new List<Point>()
+        private List<Point> _buildZone = new List<Point>()
         {
             new Point(83, 136),
             new Point(124, 186),
@@ -23,7 +23,7 @@ namespace SolarPanels.Factories
             new Point(83, 136)
         };
 
-        private static List<Point> _blockedZone = new List<Point>()
+        private List<Point> _blockedZone = new List<Point>()
         {
             new Point(173, 123),
             new Point(182, 143),
@@ -31,7 +31,7 @@ namespace SolarPanels.Factories
             new Point(134, 121)
         };
 
-        public static ComplexShape CreateBuildZone()
+        public ComplexShape CreateBuildZone()
         {
             return new ComplexShape()
             {
@@ -41,7 +41,7 @@ namespace SolarPanels.Factories
             };
         }
 
-        public static ComplexShape CreateBlockedZone()
+        public ComplexShape CreateBlockedZone()
         {
             return new ComplexShape()
             {

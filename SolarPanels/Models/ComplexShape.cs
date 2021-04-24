@@ -8,6 +8,6 @@ namespace SolarPanels.Models
 {
     public class ComplexShape
     {
-        public List<Line> Lines { get; set; }
+        public List<LineSegment> Lines { get; set; }
     }
 }

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Solar Panels" Height="450" Width="800">
     <Grid>
-        <Button x:Name="GenerateButton" Content="Generate" HorizontalAlignment="Left" Margin="81,123,0,0" VerticalAlignment="Top" Click="onGenerateClick"/>
-        <TextBox x:Name="TestText" HorizontalAlignment="Left" Margin="81,100,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.476"/>
-        <TextBlock Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Button x:Name="GenerateButton" Content="Generate" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Click="onGenerateClick" Width="75"/>
+        <TextBox x:Name="TestText" HorizontalAlignment="Left" Margin="10,77,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
+        <Label Content="{Binding Message}" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="172" Height="46"/>
         <ItemsControl ItemsSource="{Binding Path=Lines}" Margin="206,0,0,0" HorizontalAlignment="Right">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

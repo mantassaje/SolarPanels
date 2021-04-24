@@ -9,7 +9,7 @@ namespace SolarPanels.Extensions
 {
     public static class PointExtensions
     {
-        public static IEnumerable<Line> ToLines(this IEnumerable<Point> points, SolidColorBrush color)
+        public static IEnumerable<Models.LineSegment> ToLines(this IEnumerable<Point> points, SolidColorBrush color)
         {
             if (points == null
                 || points.Count() == 0)
@@ -27,7 +27,7 @@ namespace SolarPanels.Extensions
                     continue;
                 }
 
-                yield return new Line()
+                yield return new Models.LineSegment()
                 {
                     Point1 = previousPoint.Value,
                     Point2 = point,
@@ -37,7 +37,7 @@ namespace SolarPanels.Extensions
                 previousPoint = point;
             }
 
-            yield return new Line()
+            yield return new Models.LineSegment()
             {
                 Point1 = points.First(),
                 Point2 = points.Last(),

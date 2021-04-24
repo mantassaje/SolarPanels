@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using SolarPanels.Extensions;
 using SolarPanels.Factories;
 using SolarPanels.Models;
 using System;
@@ -37,8 +38,8 @@ namespace SolarPanels.ViewModels
             }
         }
 
-        public ObservableCollection<Line> _lines;
-        public ObservableCollection<Line> Lines
+        public ObservableCollection<LineSegment> _lines;
+        public ObservableCollection<LineSegment> Lines
         {
             get { return _lines; }
             set
@@ -50,13 +51,31 @@ namespace SolarPanels.ViewModels
 
         public MainViewModel()
         {
-            Message = "Hello World";
             var shape1 = ShapeFactory.CreateBuildZone();
             var shape2 = ShapeFactory.CreateBlockedZone();
 
-            var lines = shape1.Lines.Union(shape2.Lines);
+            var lines = shape1.Lines.Union(shape2.Lines).ToList();
 
-            Lines = new ObservableCollection<Line>(lines);
+            var inrLine1 = new LineSegment()
+            {
+                Point1 = new Point(20, 20),
+                Point2 = new Point(20, 50),
+                Stroke = System.Windows.Media.Brushes.Green
+            };
+
+            var inrLine2 = new LineSegment()
+            {
+                Point2 = new Point(40, 40),
+                Point1 = new Point(21, 17),
+                Stroke = System.Windows.Media.Brushes.Green
+            };
+
+            lines.Add(inrLine1);
+            lines.Add(inrLine2);
+
+            Message = inrLine1.FindIntersection(inrLine2)?.ToString();
+
+            Lines = new ObservableCollection<LineSegment>(lines);
         }
 
         public void GenerateButton()
@@ -65,9 +84,9 @@ namespace SolarPanels.ViewModels
 
             Message = "Presses = " + _pressCount;
 
-            Lines = new ObservableCollection<Line>()
+            Lines = new ObservableCollection<LineSegment>()
             {
-                new Line()
+                new LineSegment()
                 {
                     Point1 = new Point(_pressCount, _pressCount),
                     Point2 = new Point(_pressCount + 20, _pressCount + 30),

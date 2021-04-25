@@ -46,16 +46,15 @@ namespace SolarPanels.Extensions
             };
         }
 
+        /// <summary>
+        /// Check if this point is inside passed shape.
+        /// </summary>
         public static bool IsInside(this Point point, IShape shape)
         {
             var lines = shape.GetLines();
 
             var minX = lines
-                .SelectMany(line =>
-                    new double[] {
-                        line.Point1.X,
-                        line.Point2.X
-                    })
+                .SelectAllX()
                 .Min();
 
             var rayCast = new Models.LineSegment()

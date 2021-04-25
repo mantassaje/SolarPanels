@@ -11,47 +11,37 @@ namespace SolarPanels.Extensions
 {
     public static class IShapeExtensions
     {
+        /// <summary>
+        /// Get coordinates of top left corner.
+        /// </summary>
         public static Point MinPoint(this IShape shape)
         {
             var shapeLine = shape.GetLines();
 
             var x = shapeLine
-                .SelectMany(line =>
-                    new double[] {
-                        line.Point1.X,
-                        line.Point2.X
-                    })
+                .SelectAllX()
                 .Min();
 
             var y = shapeLine
-                .SelectMany(line =>
-                    new double[] {
-                        line.Point1.Y,
-                        line.Point2.Y
-                    })
+                .SelectAllY()
                 .Min();
 
             return new Point(x, y);
         }
 
+        /// <summary>
+        /// Get coordinates of bottom right corner.
+        /// </summary>
         public static Point MaxPoint(this IShape shape)
         {
             var shapeLine = shape.GetLines();
 
             var x = shapeLine
-                .SelectMany(line =>
-                    new double[] {
-                        line.Point1.X,
-                        line.Point2.X
-                    })
+                .SelectAllX()
                 .Max();
 
             var y = shapeLine
-                .SelectMany(line =>
-                    new double[] {
-                        line.Point1.Y,
-                        line.Point2.Y
-                    })
+                .SelectAllY()
                 .Max();
 
             return new Point(x, y);
@@ -63,7 +53,8 @@ namespace SolarPanels.Extensions
                 .GetLines()
                 .Select(shapeLine => shapeLine.FindIntersection(line))
                 .Where(point => point.HasValue)
-                .Select(point => point.Value);
+                .Select(point => point.Value)
+                .Distinct();
         }
 
         public static bool DoesIntersects(this IShape shape, LineSegment line)
@@ -73,6 +64,9 @@ namespace SolarPanels.Extensions
                 .Any(shapeLine => shapeLine.FindIntersection(line) != null);
         }
 
+        /// <summary>
+        /// Is this shape is fully inside passed shapeZone.
+        /// </summary>
         public static bool IsAllInside(this IShape shapeInside, IShape shapeZone)
         {
             var insideShapeLines = shapeInside.GetLines();
@@ -83,8 +77,11 @@ namespace SolarPanels.Extensions
             }
 
             var insideFirstPoint = insideShapeLines.First().Point1;
+            var insideLowerPoint = insideShapeLines.Last().Point1;
 
-            if (!insideFirstPoint.IsInside(shapeZone))
+            // Checking lower point is a workaround. If raycast hits the corner it will count it as collision and asume it is inside.
+            if (!insideFirstPoint.IsInside(shapeZone)
+                || !insideLowerPoint.IsInside(shapeZone))
             {
                 return false;
             }
@@ -100,6 +97,9 @@ namespace SolarPanels.Extensions
             return true;
         }
 
+        /// <summary>
+        /// Is part of this shape is inside passed shapeZone.
+        /// </summary>
         public static bool IsAnyInside(this IShape shapeInside, IShape shapeZone)
         {
             var insideShapeLines = shapeInside.GetLines();
@@ -117,7 +117,9 @@ namespace SolarPanels.Extensions
                 }
             }
 
-            return false;
+            var insideFirstPoint = insideShapeLines.First().Point1;
+
+            return insideFirstPoint.IsInside(shapeZone);
         }
     }
 }

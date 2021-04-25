@@ -10,7 +10,7 @@ namespace SolarPanels.Services
     {
         private readonly ComplexShape _buildZone;
         private readonly List<ComplexShape> _blockedZones;
-        private List<Panel> _panel;
+        private List<Panel> _panels;
 
         public PanelGeneratorService(ShapeFactory shapeFactory)
         {
@@ -24,13 +24,13 @@ namespace SolarPanels.Services
 
         public void Generate(double width, double heigth, double rowSpacing, double heigthSpacing)
         {
-            _panel = new List<Panel>();
+            _panels = new List<Panel>();
 
             var minPoint = _buildZone.MinPoint();
             var maxPoint = _buildZone.MaxPoint();
 
-            for(var x = minPoint.X; x < maxPoint.X; x = x + width + rowSpacing)
-                for (var y = minPoint.Y; y < maxPoint.Y; y = y + heigth + heigthSpacing)
+            for (var x = minPoint.X; x < maxPoint.X; x = x + 1)
+                for (var y = minPoint.Y; y < maxPoint.Y; y = y + 1)
                 {
                     var panel = new Panel()
                     {
@@ -39,24 +39,32 @@ namespace SolarPanels.Services
                         Heigth = heigth
                     };
 
-                    if (IsValidShape(panel))
+                    if (IsValid(panel))
                     {
-                        _panel.Add(panel);
+                        _panels.Add(panel);
                     }
                 }
         }
 
-        private bool IsValidShape(IShape shape)
+        private bool IsValid(Panel panel)
         {
-            if (!shape.IsAllInside(_buildZone))
+            if (!panel.IsAllInside(_buildZone))
             {
                 return false;
             }
 
             foreach(var blockedZone in _blockedZones)
             {
-                if (blockedZone.IsAnyInside(shape)
-                    || shape.IsAnyInside(blockedZone))
+                if (blockedZone.IsAnyInside(panel)
+                    || panel.IsAnyInside(blockedZone))
+                {
+                    return false;
+                }
+            }
+
+            foreach (var otherPanel in _panels)
+            {
+                if (otherPanel.IsAnyInside(panel))
                 {
                     return false;
                 }
@@ -71,7 +79,7 @@ namespace SolarPanels.Services
 
             shapes.Add(_buildZone);
             shapes.AddRange(_blockedZones);
-            shapes.AddRange(_panel);
+            shapes.AddRange(_panels);
 
 
             return shapes;

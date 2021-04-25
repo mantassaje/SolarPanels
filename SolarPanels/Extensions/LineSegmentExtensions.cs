@@ -68,5 +68,28 @@ namespace SolarPanels.Extensions
                 && point.Y >= corner1.Y
                 && point.Y <= corner2.Y;
         }
+
+
+        public static IEnumerable<double> SelectAllX(this IEnumerable<LineSegment> lines)
+        {
+            return lines
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.X,
+                        line.Point2.X
+                    }
+                );
+        }
+
+        public static IEnumerable<double> SelectAllY(this IEnumerable<LineSegment> lines)
+        {
+            return lines
+                .SelectMany(line =>
+                    new double[] {
+                        line.Point1.Y,
+                        line.Point2.Y
+                    }
+                );
+        }
     }
 }

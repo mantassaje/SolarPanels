@@ -56,8 +56,26 @@ namespace SolarPanels.ViewModels
             _displayService = displayService;
             _panelGeneratorService = panelGeneratorService;
 
-            _panelGeneratorService.Generate(35, 15, 3, 3);
+            /*var inrLine1 = new LineSegment()
+            {
+                Point1 = new Point(35, 20),
+                Point2 = new Point(75, 50),
+                Stroke = System.Windows.Media.Brushes.Green
+            };
 
+            var inrLine2 = new LineSegment()
+            {
+                Point2 = new Point(10, 20),
+                Point1 = new Point(150, 20),
+                Stroke = System.Windows.Media.Brushes.Green
+            };
+
+            _displayService.AddLine(inrLine1);
+            _displayService.AddLine(inrLine2);
+
+            Message = inrLine1.FindIntersection(inrLine2)?.ToString();*/
+
+            _panelGeneratorService.Generate(35, 15, 3, 3);
             _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
 
             Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);

@@ -50,7 +50,7 @@ namespace SolarPanels.Extensions
         }
 
         /// <summary>
-        /// Check if this point is inside passed shape.
+        /// Check if this point is inside given shape.
         /// </summary>
         public static bool IsInside(this FloatPoint point, IShape shape)
         {

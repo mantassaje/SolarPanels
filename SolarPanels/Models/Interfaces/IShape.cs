@@ -8,6 +8,9 @@ namespace SolarPanels.Models.Interfaces
 {
     public interface IShape
     {
+        /// <summary>
+        /// Get lines that form this shape.
+        /// </summary>
         IEnumerable<LineSegment> GetLines();
     }
 }

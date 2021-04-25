@@ -75,7 +75,7 @@ namespace SolarPanels.ViewModels
 
             Message = inrLine1.FindIntersection(inrLine2)?.ToString();*/
 
-            _panelGeneratorService.Generate(35, 15, 25, 3, 3);
+            _panelGeneratorService.Generate(35, 15, 40, 3, 3);
             _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
 
             Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);

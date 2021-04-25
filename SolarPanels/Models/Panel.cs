@@ -1,4 +1,5 @@
-﻿using SolarPanels.Models.Interfaces;
+﻿using SolarPanels.Extensions;
+using SolarPanels.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,24 +7,29 @@ using System.Windows;
 
 namespace SolarPanels.Models
 {
+    /// <summary>
+    /// Rectangular panel with tilt.
+    /// </summary>
     public class Panel: IShape
     {
         public FloatPoint TopRightCorner { get; set; }
         public float Width { get; set; }
         public float Heigth { get; set; }
+
+        /// <summary>
+        /// Tilt in degrees.
+        /// </summary>
         public float Tilt { get; set; }
 
-
-        /*
-        90 should be 0
-        0 shuld be 1
-        45 should be 0.5
-        */
+        /// <summary>
+        /// Get Y size of panel when it is tilted.
+        /// </summary>
         public float GetTiltedHeight()
         {
-            var reversedTilt = (float)Math.Abs(90d - Tilt);
-            var ratio = reversedTilt / 90f;
-            return Heigth * ratio;
+            var radians = Tilt.DegreesToRadians();
+            var cos = Math.Cos(radians);
+            var result = cos * Heigth;
+            return (float)result;
         }
 
         public IEnumerable<LineSegment> GetLines()

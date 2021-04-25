@@ -77,8 +77,6 @@ namespace SolarPanels.Services
 
             foreach (var otherPanel in _panels)
             {
-                var otherLines = otherPanel.GetLines();
-
                 if (otherPanel.IsAnyInside(paddedPanel))
                 {
                     return false;

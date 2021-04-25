@@ -21,9 +21,5 @@ namespace SolarPanels.Views
         {
             InitializeComponent();
         }
-
-        private void onGenerateClick(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

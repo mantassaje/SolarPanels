@@ -94,10 +94,11 @@ namespace SolarPanels.ViewModels
         public void GenerateButton()
         {
             _panelGeneratorService.Generate(Length, Width, Tilt, RowSpacing, ColumnSpacing);
+
+            _displayService.Clear();
             _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
 
-            Lines.RemoveAll();
-            Lines.AddRange(_displayService.DrawLines);
+            Lines = new ObservableCollection<LineSegment>(_displayService.GetDrawLines(2f));
         }
     }
 }

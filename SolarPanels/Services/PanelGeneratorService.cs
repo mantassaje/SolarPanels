@@ -3,7 +3,6 @@ using SolarPanels.Factories;
 using SolarPanels.Models;
 using SolarPanels.Models.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SolarPanels.Services
 {

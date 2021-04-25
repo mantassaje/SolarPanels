@@ -8,19 +8,34 @@ namespace SolarPanels.Services
 {
     public class DisplayService
     {
-        public List<LineSegment> DrawLines { get; private set; } = new List<LineSegment>();
+        private List<LineSegment> _drawLines = new List<LineSegment>();
 
         public void AddShapes(params IShape[] shapes)
         {
             foreach (var shape in shapes)
             {
-                DrawLines.AddRange(shape.GetLines());
+                _drawLines.AddRange(shape.GetLines());
             }
         }
 
         public void AddLine(LineSegment line)
         {
-            DrawLines.Add(line);
+            _drawLines.Add(line);
+        }
+
+        public void Clear()
+        {
+            _drawLines = new List<LineSegment>();
+        }
+
+        public IEnumerable<LineSegment> GetDrawLines(float scale)
+        {
+            return _drawLines.Select(line => new LineSegment()
+            {
+                Point1 = new FloatPoint(line.Point1.X * scale, line.Point1.Y * scale),
+                Point2 = new FloatPoint(line.Point2.X * scale, line.Point2.Y * scale),
+                Stroke = line.Stroke
+            });
         }
     }
 }

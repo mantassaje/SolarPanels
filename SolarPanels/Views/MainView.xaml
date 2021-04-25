@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Solar Panels" Height="450" Width="800">
     <Grid>
-        <Button x:Name="GenerateButton" Content="Generate" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Click="onGenerateClick" Width="172"/>
+        <Button x:Name="GenerateButton" Content="Generate" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="172"/>
 
-        <Label Content="Length" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
-        <TextBox x:Name="Length" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
-        <Label Content="Width" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
-        <TextBox x:Name="Width" HorizontalAlignment="Left" Margin="10,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
+        <Label Content="Width" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
+        <TextBox x:Name="Width" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
+        <Label Content="Length" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
+        <TextBox x:Name="Length" HorizontalAlignment="Left" Margin="10,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
         <Label Content="Row spacing" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
         <TextBox x:Name="RowSpacing" HorizontalAlignment="Left" Margin="10,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
         <Label Content="Column spacing" HorizontalAlignment="Left" Margin="10,126,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
@@ -20,7 +20,7 @@
         <Label Content="Tilt" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.135" Width="96"/>
         <TextBox x:Name="Tilt" HorizontalAlignment="Left" Margin="10,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" RenderTransformOrigin="0.5,0.476"/>
         
-        <ItemsControl ItemsSource="{Binding Path=Lines}" Margin="206,0,0,0" HorizontalAlignment="Right">
+        <ItemsControl x:Name="PlanCanvas" ItemsSource="{Binding Path=Lines}" Margin="206,0,0,0" HorizontalAlignment="Right">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="#FFF5F6FF" Width="587" Height="Auto"  />

@@ -1,4 +1,6 @@
-﻿namespace SolarPanels.Models
+﻿using System;
+
+namespace SolarPanels.Models
 {
     /// <summary>
     /// Coordinate point defined with float numbers.
@@ -20,6 +22,11 @@
         public override string ToString()
         {
             return $"{X}; {Y}";
+        }
+
+        public override int GetHashCode()
+        {
+            return new { X, Y }.GetHashCode();
         }
     }
 }

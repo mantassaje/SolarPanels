@@ -58,6 +58,9 @@ namespace SolarPanels.Services
                 }
         }
 
+        /// <summary>
+        /// Is panel inside the build zone in is not placed on another panel or redzone.
+        /// </summary>
         private bool IsValid(Panel panel)
         {
             if (!panel.IsAllInside(_buildZone))

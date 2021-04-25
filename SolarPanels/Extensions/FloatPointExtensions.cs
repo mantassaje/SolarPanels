@@ -10,6 +10,9 @@ namespace SolarPanels.Extensions
 {
     public static class FloatPointExtensions
     {
+        /// <summary>
+        /// Create line objects from points.
+        /// </summary>
         public static IEnumerable<Models.LineSegment> ToLines(this IEnumerable<FloatPoint> points, SolidColorBrush color)
         {
             if (points == null

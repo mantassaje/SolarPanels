@@ -47,6 +47,9 @@ namespace SolarPanels.Extensions
             return new FloatPoint(x, y);
         }
 
+        /// <summary>
+        /// Get all points of intersection crossed by passed line through this shape.
+        /// </summary>
         public static IEnumerable<FloatPoint> FindIntersections(this IShape shape, LineSegment line)
         {
             return shape
@@ -57,6 +60,9 @@ namespace SolarPanels.Extensions
                 .Distinct();
         }
 
+        /// <summary>
+        /// Return true if given line intersects this shape.
+        /// </summary>
         public static bool DoesIntersects(this IShape shape, LineSegment line)
         {
             return shape

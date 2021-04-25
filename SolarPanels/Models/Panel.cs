@@ -13,8 +13,8 @@ namespace SolarPanels.Models
     public class Panel: IShape
     {
         public FloatPoint TopRightCorner { get; set; }
+        public float Length { get; set; }
         public float Width { get; set; }
-        public float Heigth { get; set; }
 
         /// <summary>
         /// Tilt in degrees.
@@ -28,7 +28,7 @@ namespace SolarPanels.Models
         {
             var radians = Tilt.DegreesToRadians();
             var cos = Math.Cos(radians);
-            var result = cos * Heigth;
+            var result = cos * Width;
             return (float)result;
         }
 
@@ -40,7 +40,7 @@ namespace SolarPanels.Models
             var line1 = new LineSegment()
             {
                 Point1 = TopRightCorner,
-                Point2 = new FloatPoint(TopRightCorner.X + Width, TopRightCorner.Y),
+                Point2 = new FloatPoint(TopRightCorner.X + Length, TopRightCorner.Y),
                 Stroke = color
             };
 
@@ -49,7 +49,7 @@ namespace SolarPanels.Models
             var line2 = new LineSegment()
             {
                 Point1 = line1.Point2,
-                Point2 = new FloatPoint(TopRightCorner.X + Width, TopRightCorner.Y + tiltedHeight),
+                Point2 = new FloatPoint(TopRightCorner.X + Length, TopRightCorner.Y + tiltedHeight),
                 Stroke = color
             };
 

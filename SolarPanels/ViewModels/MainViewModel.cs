@@ -18,29 +18,63 @@ namespace SolarPanels.ViewModels
         private readonly DisplayService _displayService;
         private readonly PanelGeneratorService _panelGeneratorService;
 
-        private string _message;
-        public string Message
+        private float _length = 25;
+        public float Length
         {
-            get { return _message; }
+            get { return _length; }
             set
             {
-                _message = value;
-                NotifyOfPropertyChange(() => Message);
+                _length = value;
+                NotifyOfPropertyChange(() => Length);
             }
         }
 
-        private string _testText;
-        public string TestText 
+        private float _width = 15;
+        public float Width
         {
-            get { return _testText; }
+            get { return _width; }
             set
             {
-                _testText = value;
-                NotifyOfPropertyChange(() => TestText);
+                _width = value;
+                NotifyOfPropertyChange(() => Width);
+            }
+        }
+        private float _tilt = 25;
+        public float Tilt
+        {
+            get { return _tilt; }
+            set
+            {
+                if (_tilt > 60) _tilt = 60;
+                else if (_tilt < 0) _tilt = 0;
+                else _tilt = value;
+                NotifyOfPropertyChange(() => Tilt);
             }
         }
 
-        public ObservableCollection<LineSegment> _lines;
+        private float _rowSpacing = 8;
+        public float RowSpacing
+        {
+            get { return _rowSpacing; }
+            set
+            {
+                _rowSpacing = value;
+                NotifyOfPropertyChange(() => RowSpacing);
+            }
+        }
+
+        private float _columnSpacing = 2;
+        public float ColumnSpacing
+        {
+            get { return _columnSpacing; }
+            set
+            {
+                _columnSpacing = value;
+                NotifyOfPropertyChange(() => ColumnSpacing);
+            }
+        }
+
+        public ObservableCollection<LineSegment> _lines = new ObservableCollection<LineSegment>();
         public ObservableCollection<LineSegment> Lines
         {
             get { return _lines; }
@@ -55,34 +89,15 @@ namespace SolarPanels.ViewModels
         {
             _displayService = displayService;
             _panelGeneratorService = panelGeneratorService;
-
-            /*var inrLine1 = new LineSegment()
-            {
-                Point1 = new FloatPoint(116, 25),
-                Point2 = new FloatPoint(116, 35.8333333333333f),
-                Stroke = System.Windows.Media.Brushes.Green
-            };
-
-            var inrLine2 = new LineSegment()
-            {
-                Point2 = new FloatPoint(78, 28),
-                Point1 = new FloatPoint(119, 28),
-                Stroke = System.Windows.Media.Brushes.Green
-            };
-
-            _displayService.AddLine(inrLine1);
-            _displayService.AddLine(inrLine2);
-
-            Message = inrLine1.FindIntersection(inrLine2)?.ToString();*/
-
-            _panelGeneratorService.Generate(35, 15, 40, 3, 3);
-            _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
-
-            Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);
         }
 
         public void GenerateButton()
         {
+            _panelGeneratorService.Generate(Length, Width, Tilt, RowSpacing, ColumnSpacing);
+            _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
+
+            Lines.RemoveAll();
+            Lines.AddRange(_displayService.DrawLines);
         }
     }
 }

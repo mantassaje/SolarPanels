@@ -28,9 +28,9 @@ namespace SolarPanels.Services
 
         /// <summary>
         /// Generates panels with provided parameters.
-        /// Result will be save inside this service class.
+        /// Result will be saved inside this service object.
         /// </summary>
-        public void Generate(float width, float heigth, float tilt, float rowSpacing, float columnSpacing)
+        public void Generate(float length, float width, float tilt, float rowSpacing, float columnSpacing)
         {
             _panels = new List<Panel>();
             _rowSpacing = rowSpacing;
@@ -45,14 +45,16 @@ namespace SolarPanels.Services
                     var panel = new Panel()
                     {
                         TopRightCorner = new FloatPoint(x, y),
+                        Length = length,
                         Width = width,
-                        Heigth = heigth,
                         Tilt = tilt
                     };
 
                     if (IsValid(panel))
                     {
                         _panels.Add(panel);
+
+                        y += panel.GetTiltedHeight();
                     }
                 }
         }
@@ -93,7 +95,6 @@ namespace SolarPanels.Services
             shapes.Add(_buildZone);
             shapes.AddRange(_blockedZones);
             shapes.AddRange(_panels);
-            shapes.AddRange(_panels.Select(panel => panel.GetPaddedShape(_rowSpacing, _columnSpacing)));
 
             return shapes;
         }

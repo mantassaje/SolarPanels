@@ -8,9 +8,9 @@ using System.Windows.Media;
 
 namespace SolarPanels.Extensions
 {
-    public static class PointExtensions
+    public static class FloatPointExtensions
     {
-        public static IEnumerable<Models.LineSegment> ToLines(this IEnumerable<Point> points, SolidColorBrush color)
+        public static IEnumerable<Models.LineSegment> ToLines(this IEnumerable<FloatPoint> points, SolidColorBrush color)
         {
             if (points == null
                 || points.Count() == 0)
@@ -18,7 +18,7 @@ namespace SolarPanels.Extensions
                 yield break;
             }
 
-            Point? previousPoint = null;
+            FloatPoint? previousPoint = null;
 
             foreach (var point in points)
             {
@@ -49,7 +49,7 @@ namespace SolarPanels.Extensions
         /// <summary>
         /// Check if this point is inside passed shape.
         /// </summary>
-        public static bool IsInside(this Point point, IShape shape)
+        public static bool IsInside(this FloatPoint point, IShape shape)
         {
             var lines = shape.GetLines();
 
@@ -59,7 +59,7 @@ namespace SolarPanels.Extensions
 
             var rayCast = new Models.LineSegment()
             {
-                Point1 = new Point(minX - 1, point.Y),
+                Point1 = new FloatPoint(minX - 1, point.Y),
                 Point2 = point
             };
 

@@ -13,8 +13,8 @@ namespace SolarPanels.Services
         private readonly List<ComplexShape> _blockedZones;
         private List<Panel> _panels;
 
-        private double _rowSpacing;
-        private double _columnSpacing;
+        private float _rowSpacing;
+        private float _columnSpacing;
 
         public PanelGeneratorService(ShapeFactory shapeFactory)
         {
@@ -30,7 +30,7 @@ namespace SolarPanels.Services
         /// Generates panels with provided parameters.
         /// Result will be save inside this service class.
         /// </summary>
-        public void Generate(double width, double heigth, double rowSpacing, double columnSpacing)
+        public void Generate(float width, float heigth, float tilt, float rowSpacing, float columnSpacing)
         {
             _panels = new List<Panel>();
             _rowSpacing = rowSpacing;
@@ -44,9 +44,10 @@ namespace SolarPanels.Services
                 {
                     var panel = new Panel()
                     {
-                        TopRightCorner = new System.Windows.Point(x, y),
+                        TopRightCorner = new FloatPoint(x, y),
                         Width = width,
-                        Heigth = heigth
+                        Heigth = heigth,
+                        Tilt = tilt
                     };
 
                     if (IsValid(panel))
@@ -76,6 +77,8 @@ namespace SolarPanels.Services
 
             foreach (var otherPanel in _panels)
             {
+                var otherLines = otherPanel.GetLines();
+
                 if (otherPanel.IsAnyInside(paddedPanel))
                 {
                     return false;

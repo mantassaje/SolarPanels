@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace SolarPanels.Models
 {
+    /// <summary>
+    /// Any shape from list of lines.
+    /// </summary>
     public class ComplexShape: IShape
     {
         public IEnumerable<LineSegment> Lines { get; set; }

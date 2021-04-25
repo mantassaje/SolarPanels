@@ -14,7 +14,7 @@ namespace SolarPanels.Extensions
         /// Return point of intersection.
         /// Return null if no intersection.
         /// </summary>
-        public static Point? FindIntersection(this LineSegment line1, LineSegment line2)
+        public static FloatPoint? FindIntersection(this LineSegment line1, LineSegment line2)
         {
             var a1 = line1.Point2.Y - line1.Point1.Y;
             var b1 = line1.Point1.X - line1.Point2.X;
@@ -32,7 +32,7 @@ namespace SolarPanels.Extensions
                 return null;
             }
 
-            var infinateIntersecationPoint = new Point(
+            var infinateIntersecationPoint = new FloatPoint(
                 (b2 * c1 - b1 * c2) / delta, 
                 (a1 * c2 - a2 * c1) / delta
             );
@@ -50,42 +50,48 @@ namespace SolarPanels.Extensions
         /// Assume line object defines two separate corners of rectangelar.
         /// Check if point is inside of the rectangelar.
         /// </summary>
-        /// <returns></returns>
-        private static bool IsInside(this LineSegment rectangelar, Point point)
+        private static bool IsInside(this LineSegment rectangelar, FloatPoint point)
         {
-            var corner1 = new Point(
-                Math.Min(rectangelar.Point1.X, rectangelar.Point2.X),
-                Math.Min(rectangelar.Point1.Y, rectangelar.Point2.Y)
+            //Rounding is a workaround. This sometimes gives wrong results with infinate fraction numbers.
+            var corner1 = new FloatPoint(
+                (float)Math.Round(Math.Min(rectangelar.Point1.X, rectangelar.Point2.X)),
+                (float)Math.Round(Math.Min(rectangelar.Point1.Y, rectangelar.Point2.Y))
             );
 
-            var corner2 = new Point(
-                Math.Max(rectangelar.Point1.X, rectangelar.Point2.X), 
-                Math.Max(rectangelar.Point1.Y, rectangelar.Point2.Y)
+            var corner2 = new FloatPoint(
+                (float)Math.Round(Math.Max(rectangelar.Point1.X, rectangelar.Point2.X)),
+                (float)Math.Round(Math.Max(rectangelar.Point1.Y, rectangelar.Point2.Y))
             );
 
-            return point.X >= corner1.X
-                && point.X <= corner2.X
-                && point.Y >= corner1.Y
-                && point.Y <= corner2.Y;
+            var roundedPoint = new FloatPoint()
+            {
+                X = (float)Math.Round(point.X),
+                Y = (float)Math.Round(point.Y)
+            };
+
+            return roundedPoint.X >= corner1.X
+                && roundedPoint.X <= corner2.X
+                && roundedPoint.Y >= corner1.Y
+                && roundedPoint.Y <= corner2.Y;
         }
 
 
-        public static IEnumerable<double> SelectAllX(this IEnumerable<LineSegment> lines)
+        public static IEnumerable<float> SelectAllX(this IEnumerable<LineSegment> lines)
         {
             return lines
                 .SelectMany(line =>
-                    new double[] {
+                    new float[] {
                         line.Point1.X,
                         line.Point2.X
                     }
                 );
         }
 
-        public static IEnumerable<double> SelectAllY(this IEnumerable<LineSegment> lines)
+        public static IEnumerable<float> SelectAllY(this IEnumerable<LineSegment> lines)
         {
             return lines
                 .SelectMany(line =>
-                    new double[] {
+                    new float[] {
                         line.Point1.Y,
                         line.Point2.Y
                     }

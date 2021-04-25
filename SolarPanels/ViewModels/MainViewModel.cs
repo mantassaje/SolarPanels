@@ -58,15 +58,15 @@ namespace SolarPanels.ViewModels
 
             /*var inrLine1 = new LineSegment()
             {
-                Point1 = new Point(35, 20),
-                Point2 = new Point(75, 50),
+                Point1 = new FloatPoint(116, 25),
+                Point2 = new FloatPoint(116, 35.8333333333333f),
                 Stroke = System.Windows.Media.Brushes.Green
             };
 
             var inrLine2 = new LineSegment()
             {
-                Point2 = new Point(10, 20),
-                Point1 = new Point(150, 20),
+                Point2 = new FloatPoint(78, 28),
+                Point1 = new FloatPoint(119, 28),
                 Stroke = System.Windows.Media.Brushes.Green
             };
 
@@ -75,7 +75,7 @@ namespace SolarPanels.ViewModels
 
             Message = inrLine1.FindIntersection(inrLine2)?.ToString();*/
 
-            _panelGeneratorService.Generate(35, 15, 3, 3);
+            _panelGeneratorService.Generate(35, 15, 25, 3, 3);
             _displayService.AddShapes(_panelGeneratorService.GetShapes().ToArray());
 
             Lines = new ObservableCollection<LineSegment>(_displayService.DrawLines);

@@ -1,4 +1,5 @@
 ﻿using SolarPanels.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,20 +8,33 @@ namespace SolarPanels.Models
 {
     public class Panel: IShape
     {
-        public Point TopRightCorner { get; set; }
-        public double Width { get; set; }
-        public double Heigth { get; set; }
-        public double Tilt { get; set; }
+        public FloatPoint TopRightCorner { get; set; }
+        public float Width { get; set; }
+        public float Heigth { get; set; }
+        public float Tilt { get; set; }
 
-        //TODO include tilt
+
+        /*
+        90 should be 0
+        0 shuld be 1
+        45 should be 0.5
+        */
+        public float GetTiltedHeight()
+        {
+            var reversedTilt = (float)Math.Abs(90d - Tilt);
+            var ratio = reversedTilt / 90f;
+            return Heigth * ratio;
+        }
+
         public IEnumerable<LineSegment> GetLines()
         {
             var color = System.Windows.Media.Brushes.Blue;
+            var tiltedHeight = GetTiltedHeight();
 
             var line1 = new LineSegment()
             {
                 Point1 = TopRightCorner,
-                Point2 = new System.Windows.Point(TopRightCorner.X + Width, TopRightCorner.Y),
+                Point2 = new FloatPoint(TopRightCorner.X + Width, TopRightCorner.Y),
                 Stroke = color
             };
 
@@ -29,7 +43,7 @@ namespace SolarPanels.Models
             var line2 = new LineSegment()
             {
                 Point1 = line1.Point2,
-                Point2 = new System.Windows.Point(TopRightCorner.X + Width, TopRightCorner.Y + Heigth),
+                Point2 = new FloatPoint(TopRightCorner.X + Width, TopRightCorner.Y + tiltedHeight),
                 Stroke = color
             };
 
@@ -38,7 +52,7 @@ namespace SolarPanels.Models
             var line3 = new LineSegment()
             {
                 Point1 = line2.Point2,
-                Point2 = new System.Windows.Point(TopRightCorner.X, TopRightCorner.Y + Heigth),
+                Point2 = new FloatPoint(TopRightCorner.X, TopRightCorner.Y + tiltedHeight),
                 Stroke = color
             };
 
@@ -52,7 +66,7 @@ namespace SolarPanels.Models
             };
         }
 
-        public IEnumerable<LineSegment> GetPaddedLines(double rowSpacing, double columnSpacing)
+        public IEnumerable<LineSegment> GetPaddedLines(float rowSpacing, float columnSpacing)
         {
             var color = System.Windows.Media.Brushes.LightSkyBlue;
             var lines = GetLines().GetEnumerator();
@@ -62,8 +76,8 @@ namespace SolarPanels.Models
 
             var paddedLine1 = new LineSegment()
             {
-                Point1 = new Point(line.Point1.X - columnSpacing, line.Point1.Y - rowSpacing),
-                Point2 = new Point(line.Point2.X + columnSpacing, line.Point2.Y - rowSpacing),
+                Point1 = new FloatPoint(line.Point1.X - columnSpacing, line.Point1.Y - rowSpacing),
+                Point2 = new FloatPoint(line.Point2.X + columnSpacing, line.Point2.Y - rowSpacing),
                 Stroke = color
             };
 
@@ -75,7 +89,7 @@ namespace SolarPanels.Models
             var paddedLine2 = new LineSegment()
             {
                 Point1 = paddedLine1.Point2,
-                Point2 = new Point(line.Point2.X + columnSpacing, line.Point2.Y + rowSpacing),
+                Point2 = new FloatPoint(line.Point2.X + columnSpacing, line.Point2.Y + rowSpacing),
                 Stroke = color
             };
 
@@ -87,7 +101,7 @@ namespace SolarPanels.Models
             var paddedLine3 = new LineSegment()
             {
                 Point1 = paddedLine2.Point2,
-                Point2 = new Point(line.Point2.X - columnSpacing, line.Point2.Y + rowSpacing),
+                Point2 = new FloatPoint(line.Point2.X - columnSpacing, line.Point2.Y + rowSpacing),
                 Stroke = color
             };
 

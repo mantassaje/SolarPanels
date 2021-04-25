@@ -11,24 +11,24 @@ namespace SolarPanels.Factories
     /// </summary>
     public class ShapeFactory
     {
-        private List<Point> _buildZone = new List<Point>()
+        private List<FloatPoint> _buildZone = new List<FloatPoint>()
         {
-            new Point(83, 136),
-            new Point(124, 186),
-            new Point(252, 155),
-            new Point(227, 47),
-            new Point(183, 82),
-            new Point(163, 4),
-            new Point(80, 25),
-            new Point(83, 136)
+            new FloatPoint(83, 136),
+            new FloatPoint(124, 186),
+            new FloatPoint(252, 155),
+            new FloatPoint(227, 47),
+            new FloatPoint(183, 82),
+            new FloatPoint(163, 4),
+            new FloatPoint(80, 25),
+            new FloatPoint(83, 136)
         };
 
-        private List<Point> _blockedZone = new List<Point>()
+        private List<FloatPoint> _blockedZone = new List<FloatPoint>()
         {
-            new Point(173, 123),
-            new Point(182, 143),
-            new Point(145, 147),
-            new Point(134, 121)
+            new FloatPoint(173, 123),
+            new FloatPoint(182, 143),
+            new FloatPoint(145, 147),
+            new FloatPoint(134, 121)
         };
 
         public ComplexShape CreateBuildZone()

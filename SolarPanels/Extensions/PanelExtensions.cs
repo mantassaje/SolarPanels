@@ -9,7 +9,7 @@ namespace SolarPanels.Extensions
 {
     public static class PanelExtensions
     {
-        public static ComplexShape GetPaddedShape(this Panel panel, double rowSpacing, double columnSpacing)
+        public static ComplexShape GetPaddedShape(this Panel panel, float rowSpacing, float columnSpacing)
         {
             return new ComplexShape()
             {

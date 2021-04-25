@@ -14,7 +14,7 @@ namespace SolarPanels.Extensions
         /// <summary>
         /// Get coordinates of top left corner.
         /// </summary>
-        public static Point MinPoint(this IShape shape)
+        public static FloatPoint MinPoint(this IShape shape)
         {
             var shapeLine = shape.GetLines();
 
@@ -26,13 +26,13 @@ namespace SolarPanels.Extensions
                 .SelectAllY()
                 .Min();
 
-            return new Point(x, y);
+            return new FloatPoint(x, y);
         }
 
         /// <summary>
         /// Get coordinates of bottom right corner.
         /// </summary>
-        public static Point MaxPoint(this IShape shape)
+        public static FloatPoint MaxPoint(this IShape shape)
         {
             var shapeLine = shape.GetLines();
 
@@ -44,10 +44,10 @@ namespace SolarPanels.Extensions
                 .SelectAllY()
                 .Max();
 
-            return new Point(x, y);
+            return new FloatPoint(x, y);
         }
 
-        public static IEnumerable<Point> FindIntersections(this IShape shape, LineSegment line)
+        public static IEnumerable<FloatPoint> FindIntersections(this IShape shape, LineSegment line)
         {
             return shape
                 .GetLines()

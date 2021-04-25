@@ -47,8 +47,8 @@ namespace SolarPanels.Extensions
         }
 
         /// <summary>
-        /// Assume line object defines two separate corners of rectangelar.
-        /// Check if point is inside of the rectangelar.
+        /// Assume line object defines two separate corners of rectangular.
+        /// Check if point is inside of the rectangular.
         /// </summary>
         private static bool IsInside(this LineSegment rectangelar, FloatPoint point)
         {

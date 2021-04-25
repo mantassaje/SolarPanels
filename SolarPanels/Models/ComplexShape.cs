@@ -11,7 +11,7 @@ namespace SolarPanels.Models
 {
     public class ComplexShape: IShape
     {
-        public List<LineSegment> Lines { get; set; }
+        public IEnumerable<LineSegment> Lines { get; set; }
 
         public IEnumerable<LineSegment> GetLines()
         {

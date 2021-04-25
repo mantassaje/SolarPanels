@@ -3,6 +3,7 @@ using SolarPanels.Factories;
 using SolarPanels.Models;
 using SolarPanels.Models.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SolarPanels.Services
 {
@@ -11,6 +12,9 @@ namespace SolarPanels.Services
         private readonly ComplexShape _buildZone;
         private readonly List<ComplexShape> _blockedZones;
         private List<Panel> _panels;
+
+        private double _rowSpacing;
+        private double _columnSpacing;
 
         public PanelGeneratorService(ShapeFactory shapeFactory)
         {
@@ -22,9 +26,15 @@ namespace SolarPanels.Services
             };
         }
 
-        public void Generate(double width, double heigth, double rowSpacing, double heigthSpacing)
+        /// <summary>
+        /// Generates panels with provided parameters.
+        /// Result will be save inside this service class.
+        /// </summary>
+        public void Generate(double width, double heigth, double rowSpacing, double columnSpacing)
         {
             _panels = new List<Panel>();
+            _rowSpacing = rowSpacing;
+            _columnSpacing = columnSpacing;
 
             var minPoint = _buildZone.MinPoint();
             var maxPoint = _buildZone.MaxPoint();
@@ -62,9 +72,11 @@ namespace SolarPanels.Services
                 }
             }
 
+            var paddedPanel = panel.GetPaddedShape(_rowSpacing, _columnSpacing);
+
             foreach (var otherPanel in _panels)
             {
-                if (otherPanel.IsAnyInside(panel))
+                if (otherPanel.IsAnyInside(paddedPanel))
                 {
                     return false;
                 }
@@ -80,7 +92,7 @@ namespace SolarPanels.Services
             shapes.Add(_buildZone);
             shapes.AddRange(_blockedZones);
             shapes.AddRange(_panels);
-
+            shapes.AddRange(_panels.Select(panel => panel.GetPaddedShape(_rowSpacing, _columnSpacing)));
 
             return shapes;
         }

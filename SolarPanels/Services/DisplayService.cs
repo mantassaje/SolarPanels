@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace SolarPanels.Services
 {
+    /// <summary>
+    /// Holds lines for display. Can scale lines.
+    /// </summary>
     public class DisplayService
     {
         private List<LineSegment> _drawLines = new List<LineSegment>();
